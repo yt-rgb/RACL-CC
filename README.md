@@ -1,15 +1,6 @@
 # RACL-CC
 
-RACL-CC is a remote-sensing change captioning project for generating natural-language descriptions of changes between bi-temporal images. The project combines a Qwen2-based multimodal language model with a CLIP visual encoder and change-aware fusion modules, and also supports change segmentation evaluation.
-
-## Features
-
-- Bi-temporal remote-sensing image change captioning
-- Region-aware CLIP pretraining with LoRA
-- Change-aware multimodal fusion modules
-- Joint captioning and segmentation evaluation
-- Support for LEVIR-MCI formatted datasets
-- DeepSpeed training scripts
+This repo is the official implementation for RACL-CC: Bridging Domain and Semantic Gaps in Remote Sensing Change Captioning
 
 ## Project Structure
 
@@ -26,20 +17,9 @@ RACL-CC/
 ├── evaluate_racl.py               # Main evaluation entry
 └── .gitignore
 
-EnvironmentCreate a Python environment and install the required deep learning packages according to your CUDA version.
-Main dependencies include:
-torch
-transformers
-deepspeed
-accelerate
-numpy
-Pillow
-tqdm
-nltk
-pycocoevalcap
+## EnvironmentCreate
 
-For evaluation metrics, install:
-pip install nltk pycocoevalcap
+
 
 Data Preparation
 The project uses LEVIR-MCI style bi-temporal remote-sensing data.
