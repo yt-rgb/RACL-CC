@@ -67,3 +67,37 @@ dataset:
 ```
 
 Use `LEVIR_MCI_aug`, `CLCD_aug`, or `SECOND_aug` according to the selected dataset. 
+
+## Training
+
+The training pipeline contains two stages: region-aware CLIP pretraining and RACL-CC multimodal training.
+
+### Region-Aware CLIP Pretraining
+
+The pretraining code is located in `RACL-pretrain/`.
+
+Update the dataset path and checkpoint path in `RACL-pretrain/clip_region_aware.yaml`, then run:
+
+```bash
+cd RACL-pretrain
+python train_region_aware.py --config clip_region_aware.yaml
+```
+
+After pretraining, merge the LoRA weights into HuggingFace CLIP format:
+
+```bash
+python scripts/convert_clip_lora.py \
+  --input /path/to/best_model.pth \
+  --base-model /path/to/clip-vit-large-patch14 \
+  --output /path/to/CLIP_RegionAware_merged
+```
+
+### RACL-CC Training
+
+Run training:
+
+```bash
+bash scripts/train_racl.sh
+```
+
+The default script trains the multimodal projector, change detector, and segmentation head with DeepSpeed.
