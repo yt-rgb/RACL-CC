@@ -17,8 +17,27 @@ RACL-CC/
 ├── evaluate_racl.py               # Main evaluation entry
 └── .gitignore
 
-## EnvironmentCreate
+## Environment Create
 
+The recommended environment is:
+
+- Ubuntu 22.04
+- Python 3.12
+- PyTorch 2.7.0
+- CUDA 12.8
+
+Create and activate a conda environment:
+
+```bash
+conda create -n raclcc python=3.12 -y
+conda activate raclcc
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
 
 
 Data Preparation
