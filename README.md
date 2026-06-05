@@ -101,3 +101,28 @@ bash scripts/train_racl.sh
 ```
 
 The default script trains the multimodal projector, change detector, and segmentation head with DeepSpeed.
+
+## Evaluation
+
+The evaluation pipeline contains two parts: region-aware CLIP pretraining evaluation and RACL-CC model evaluation.
+
+### Region-Aware CLIP Pretraining Evaluation
+
+The pretraining evaluation code is located in `RACL-pretrain/`.
+
+Update the dataset path and checkpoint path in `RACL-pretrain/clip_region_aware.yaml`, then run:
+
+```bash
+python evaluate_region_aware.py --config clip_region_aware.yaml
+```
+
+### RACL-CC Evaluation
+
+Update the checkpoint, base model, vision encoder, dataset, and output paths in `scripts/run_evaluation.sh`
+Run evaluation:
+
+```bash
+bash scripts/run_evaluation.sh
+```
+
+The evaluation script supports captioning and segmentation metrics, including BLEU, METEOR, ROUGE-L, CIDEr, F1, and cIoU.
