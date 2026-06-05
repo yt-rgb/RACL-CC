@@ -40,15 +40,30 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Data Preparation
-The project uses LEVIR-MCI style bi-temporal remote-sensing data.
+## Dataset
 
-Expected paths used by the default scripts:
-racl/LEVIR-MCI-dataset/converted/train.json
-racl/LEVIR-MCI-dataset/converted/test.json
-racl/LEVIR-MCI-dataset/images/
+RACL-CC uses LEVIR-MCI for training and evaluation. The region-aware CLIP pretraining stage supports LEVIR-MCI, CLCD, and SECOND.
 
-The image folder is usually large and is ignored by Git. Please prepare the image data locally before training or evaluation.
+```text
+racl/LEVIR-MCI-dataset/
+├── converted/
+│   ├── train.json
+│   ├── val.json
+│   └── test.json
+└── images/
+    ├── train/
+    ├── val/
+    ├── test/
+    ├── label_gray/
+    └── label_rgb/
+```
 
-Region-Aware CLIP Pretraining
-The RACL-pretrain/ directory contains the region-aware CLIP pretraining code.
+Pretraining dataset settings are configured in `RACL-pretrain/clip_region_aware.yaml`:
+
+```yaml
+dataset:
+  module: LEVIR_MCI_aug
+  root: /path/to/dataset
+```
+
+Use `LEVIR_MCI_aug`, `CLCD_aug`, or `SECOND_aug` according to the selected dataset. 
