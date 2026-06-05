@@ -1,0 +1,74 @@
+# usage:
+#   python train_region_aware.py --config clip_region_aware.yaml
+
+experiment:
+  name: CLIP_LoRA_RegionAware
+  dataset: LEVIR-MCI
+  # dataset: CLCD
+  # dataset: SECOND
+
+model:
+  module: CLIP_LoRA
+  class_name: CLIP_CD_LoRA
+  args:
+    clip_path: /root/autodl-tmp/clip-vit-large-patch14
+    num_embed: 16
+    lora_r: 4
+    lora_layers: [4, 10, 16, 22]
+
+dataset:
+  module: LEVIR_MCI_aug
+  # module: CLCD_aug
+  # module: SECOND_aug
+  class_name: RS
+  root: /root/RACL/racl/LEVIR-MCI-dataset/images
+  # root: /root/autodl-tmp/CLCD
+  # root: /root/autodl-tmp/SECOND
+  train:
+    split: train
+    kwargs:
+      random_crop: false
+      crop_nums: 1
+      # crop_size: 256
+      crop_size: 512
+  val:
+    split: val
+    kwargs:
+      sliding_crop: false
+  test:
+    split: test
+    kwargs:
+      sliding_crop: false
+
+training:
+  train_batch_size: 8
+  val_batch_size: 16
+  num_workers: 16
+  lr: 0.001
+  epochs: 30
+  gpu: true
+  dev_id: 0
+  print_freq: 100
+
+  use_region_aware: True
+  region_aware:
+    change_threshold: 0.5     # Same as unchanged_threshold to avoid overlap
+    unchanged_threshold: 0.5  # Same as change_threshold to avoid overlap
+    warmup_epochs: 5          # Longer warmup period
+    pull_margin: 0.3          # Relaxed tolerance for LEVIR and CLCD
+    push_margin: 0.3          # Lower margin to avoid over-pushing features apart
+    pull_weight: 1.0          # Weight for unchanged regions, which are more frequent
+    push_weight: 0.5          # Weight for changed regions, which are less frequent
+
+  loss_terms:
+    - quadruplet
+    - infoNCE
+    - change_sparsity
+
+  tta: True
+  load_path: null
+
+paths:
+  checkpoints: /root/autodl-tmp/checkpoints/CLIP_RegionAware-CLCD
+  results: /root/autodl-tmp/results/CLIP_RegionAware-CLCD
+  logs: /root/autodl-tmp/runs

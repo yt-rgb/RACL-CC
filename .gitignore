@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+conda-meta/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+outputs/
+runs/
+wandb/
+tensorboard/
+checkpoints/
+racl/LEVIR-MCI-dataset/images/
+
+# Model weights and large ML artifacts
+*.pth
+*.pt
+*.ckpt
+*.bin
+*.safetensors
+*.onnx
+
+# Local models / datasets
+Qwen2-7B-Instruct/
+clip-vit-large-patch14/
+
+# Generated files
+__pycache__/
+*.egg-info/
+dist/
+build/

@@ -1,0 +1,75 @@
+# usage:
+#   python train_region_aware.py --config sam_region_aware.yaml
+
+experiment:
+  name: SAM_LoRA_RegionAware
+  dataset: LEVIR-MCI
+  # dataset: CLCD
+  # dataset: SECOND
+
+model:
+  module: SAM_Encoder
+  class_name: SAM_CD_Encoder
+  args:
+    checkpoint: /root/autodl-tmp/sam/sam_vit_b_01ec64.pth
+    model_type: vit_b
+    num_embed: 16
+    lora_r: 4
+    lora_layers: [2, 5, 8, 11]
+    image_size: 256
+
+dataset:
+  module: LEVIR_MCI_aug
+  # module: CLCD_aug
+  # module: SECOND_aug
+  class_name: RS
+  root: /root/RACL/racl/LEVIR-MCI-dataset/images
+  # root: /root/autodl-tmp/CLCD
+  # root: /root/autodl-tmp/SECOND
+  train:
+    split: train
+    kwargs:
+      random_crop: false
+      crop_nums: 1
+      crop_size: 256
+  val:
+    split: val
+    kwargs:
+      sliding_crop: false
+  test:
+    split: test
+    kwargs:
+      sliding_crop: false
+
+training:
+  train_batch_size: 16
+  val_batch_size: 16
+  num_workers: 16
+  lr: 0.001
+  epochs: 30
+  gpu: true
+  dev_id: 0
+  print_freq: 100
+
+  use_region_aware: True
+  region_aware:
+    change_threshold: 0.5     # Same as unchanged_threshold to avoid overlap
+    unchanged_threshold: 0.5  # Same as change_threshold to avoid overlap
+    warmup_epochs: 5          # Longer warmup period
+    pull_margin: 0.3          # Relaxed tolerance for LEVIR and CLCD
+    push_margin: 0.3          # Lower margin to avoid over-pushing features apart
+    pull_weight: 1.0          # Weight for unchanged regions, which are more frequent
+    push_weight: 0.5          # Weight for changed regions, which are less frequent
+
+  loss_terms:
+    - quadruplet
+    - infoNCE
+    - change_sparsity
+
+  tta: True
+  load_path: null
+
+paths:
+  checkpoints: /root/autodl-tmp/checkpoints/SAM_LoRA_RegionAware
+  results: /root/autodl-tmp/results/SAM_LoRA_RegionAware
+  logs: /root/autodl-tmp/runs/SAM_LoRA_RegionAware
