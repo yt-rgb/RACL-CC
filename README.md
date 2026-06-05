@@ -16,6 +16,7 @@ RACL-CC/
 ├── scripts/                       # Training, evaluation and conversion scripts
 ├── evaluate_racl.py               # Main evaluation entry
 └── .gitignore
+```
 
 ## Environment Create
 
@@ -38,7 +39,6 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-
 
 Data Preparation
 The project uses LEVIR-MCI style bi-temporal remote-sensing data.
