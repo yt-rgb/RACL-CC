@@ -42,7 +42,7 @@ pip install -r requirements.txt
 
 ## Dataset
 
-RACL-CC uses LEVIR-MCI for training and evaluation. The region-aware CLIP pretraining stage supports LEVIR-MCI, CLCD, and SECOND.
+RACL-CC uses [LEVIR-MCI](https://github.com/Chen-Yang-Liu/LEVIR-CC-Dataset) for training and evaluation. The region-aware CLIP pretraining stage supports LEVIR-MCI, [CLCD](https://github.com/liumency/CropLand-CD), and [SECOND](https://captain-whu.github.io/SCD/).
 
 ```text
 racl/LEVIR-MCI-dataset/
